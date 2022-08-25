@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial;
+  padding: 10px;
+  background: #f1f1f1;
+}
+
+/* Header/Blog Title */
+.header {
+  padding: 30px;
+  text-align: center;
+  background: green;
+}
+
+.header h1 {
+  font-size: 50px;
+  font-color:white
+}
+
+/* Style the top navigation bar */
+.topnav {
+  overflow: hidden;
+  background-color: #864;
+}
+
+/* Style the topnav links */
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Create three unequal columns that floats next to each other */
+/* left column    new */
+.leftcolumn {   
+  float: left;
+  width: 15%;
+}
+
+/* center column    left */
+.centercolumn {   
+  float: left;
+  width: 60%;
+  background-color: #f1f1f1;
+  padding-left: 20px;
+}
+
+/* Right column */
+.rightcolumn {
+  float: left;
+  width: 25%;
+  background-color: #f1f1f1;
+  padding-left: 20px;
+}
+
+/* Fake image */
+.fakeimg {
+  background-color: #aaa;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Add a card effect for articles */
+.card {
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+						/* Rajakumar alter */
+						
+/* Style the top navigation bar main center */
+.topnavmain {
+  overflow: hidden;
+  background-color: #465;
+}
+
+
+/* Style the topnavmain links */
+.topnavmain a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Left menu alter */
+.menu {
+  float: left;
+  width: 100%;
+  text-align: left;
+}
+
+.menu a {
+  background-color: #e5e5e5;
+  padding: 8px;
+  margin-top: 7px;
+  display: block;
+  width: 100%;
+  color: blue;
+}
+
+
+/* column-count */
+.column
+{
+  column-count: 3;
+
+}
+
+
+/* Footer */
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #ddd;
+  margin-top: 20px;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .leftcolumn, .rightcolumn, .centercolumn {   
+    width: 100%;
+    padding: 0;
+  }
+}
+
+/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+@media screen and (max-width: 400px) {
+  .topnav a {
+    float: none;
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<marquee>MYSQL, LINUX, AWS, DEVOPS My won Study metrial preparation for next reference...  </marquee>
+
+<div class="header">
+  <h1>LYDIA-SOFT</h1>
+  <p>* Your best flatform for L - earning *</p>
+</div>
+
+<div class="topnav">
+	<a href="index.html">Lydia soft</a>
+    <a href="mysql.html">MYSQL DBA</a>
+    <a href="mysql_dev.html" >MYSQL Dev</a>
+    <a href="linux.html" >LINUX</a>
+	<a href=".html" >AWS</a>
+	<a href=".html" >Devops</a>
+	<a href="#" style="float:right">Login</a>
+	<a href="#" style="float:right">Career</a>
+	<a href="#" style="float:right">Billing</a>
+	
+
+</div>
+
+</body>
+</html>
+
+
