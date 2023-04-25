@@ -33,6 +33,9 @@ echo " After restarting run these cmds: mysql_secure_installation"
 mysql -uroot -p
 ALTER USER 'root'@'localhost' IDENTIFIED WITH MYSQL_NATIVE_PASSWORD BY 'Admin@123';
 show master status\G
+create user 'replica'@'%' IDENTIFIED WITH MYSQL_NATIVE_PASSWORD BY 'Replica@123';
+grant all privileges on *.* to 'replica'@'%';
+flush privileges;
 CHANGE MASTER TO MASTER_HOST = '13.229.28.173', MASTER_USER = 'ddr_slave_rpl', MASTER_PASSWORD = 'ddr_slave_rpl', MASTER_LOG_FILE = 'mysql-bin.000763', MASTER_LOG_POS = 121993598;
 start slave;
 show slave status\G 
