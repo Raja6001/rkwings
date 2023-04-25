@@ -33,7 +33,7 @@ echo " After restarting run these cmds: mysql_secure_installation"
 sestatus
 read -p " Enter your new mysql root password: " root_pass
  echo "
-mysql -uroot -p
+mysql -uroot -p$root_pass
 ALTER USER 'root'@'localhost' IDENTIFIED WITH MYSQL_NATIVE_PASSWORD BY '$root_pass';
 show master status\G
 select user , host, plugin from mysql.user;
@@ -49,7 +49,8 @@ reset slave;
 CHANGE MASTER TO MASTER_HOST = '13.59.184.150', MASTER_USER = 'replica', MASTER_PASSWORD = 'Replica@123', MASTER_LOG_FILE = 'binlog.000004', MASTER_LOG_POS = 157;
 start slave;
 show slave status\G
-curl icanhazip.com "
+curl icanhazip.com " > test
+cat test
 mysql -uroot -p${password}
 
 reboot
