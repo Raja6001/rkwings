@@ -7,7 +7,7 @@ read server_id
 echo "You are given server_id=$server_id & Installation started."
 read -p "Enter the Linux prompt name like [centos@ MASTER ~]$ : " prompt
 echo "PS1='[\u@ $prompt \W]\$ '" >> ~/.bash_profile; source  ~/.bash_profile;
-echo -e "[mysql]\nprompt=mysql ${prompt} > " /etc/my.cnf
+echo -e "[mysql]\nprompt=mysql ${prompt}>  \n$(cat /etc/my.cnf)" > /etc/my.cnf
 #
 yum update -y
 yum list installed |  grep mariadb
@@ -29,16 +29,26 @@ cat /etc/my.cnf
 systemctl status mysqld
 password=`grep password /var/log/mysqld.log | cut -d ' ' -f 13`; echo $password
 echo " After restarting run these cmds: mysql_secure_installation"
+ cat /etc/my.cnf
+sestatus
+read -p " Enter your new mysql root password: " root_pass
  echo "
 mysql -uroot -p
-ALTER USER 'root'@'localhost' IDENTIFIED WITH MYSQL_NATIVE_PASSWORD BY 'Admin@123';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH MYSQL_NATIVE_PASSWORD BY '$root_pass';
 show master status\G
-create user 'replica'@'%' IDENTIFIED WITH MYSQL_NATIVE_PASSWORD BY 'Replica@123';
-grant all privileges on *.* to 'replica'@'%';
-flush privileges;
-CHANGE MASTER TO MASTER_HOST = '13.229.28.173', MASTER_USER = 'ddr_slave_rpl', MASTER_PASSWORD = 'ddr_slave_rpl', MASTER_LOG_FILE = 'mysql-bin.000763', MASTER_LOG_POS = 121993598;
+select user , host, plugin from mysql.user;
+CREATE USER 'replica'@'%' IDENTIFIED WITH MYSQL_NATIVE_PASSWORD BY 'Replica@123';
+GRANT REPLICATION SLAVE ON *.* TO 'replica'@'%';
+GRANT ALL PRIVILEGES ON *.* TO 'replica'@'%';
+FLUSH PRIVILEGES;
+
+drop user 'replica'@'%';
+systemctl restart mysql
+stop slave;
+reset slave;
+CHANGE MASTER TO MASTER_HOST = '13.59.184.150', MASTER_USER = 'replica', MASTER_PASSWORD = 'Replica@123', MASTER_LOG_FILE = 'binlog.000004', MASTER_LOG_POS = 157;
 start slave;
-show slave status\G 
+show slave status\G
 curl icanhazip.com "
 mysql -uroot -p${password}
 
