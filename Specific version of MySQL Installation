@@ -1,0 +1,84 @@
+Specific version of MySQL Installation on CentOS 7
+It's need sudo user:
+sudo -i
+
+Update your server if not done before:
+yum update -y
+
+Check mariadb-libs to uninstall
+yum list installed |  grep mariadb
+
+Remove mariadb-libs commands:
+yum remove mariadb* -y
+
+Check the Selinux status :
+sestatus
+
+To change the Selinux mode:
+setenforce 0
+
+Disable Selinux in the config file:
+sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
+
+Must reboot your server after change the Selinux configuration:
+reboot
+
+Installing repositories using YUM
+rpm -Uvh https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm
+
+Import key:
+rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+
+Verify that mysql80-community is enabled with detailed:
+yum repolist all | grep mysql8
+
+Installing specific version of MySQL:
+yum install mysql-community-*8.0.28*64 -y
+ 
+To verify installed mysql
+ rpm -qa | grep -i mysql-community
+
+Enable mysql_native_password plugin for passwords:
+sed -i 's/^# default-authentication-plugin=mysql.*/default-authentication-plugin=mysql_native_password/g' /etc/my.cnf
+
+Start the MySQL service:
+systemctl start mysqld
+
+Fetch the One Time Password for MySQL root login:
+grep 'A temporary password' /var/log/mysqld.log | tail -n 1
+
+Secure MySQL:
+mysql_secure_installation
+
+Login to MySQL:
+mysql -uroot -p -A
+
+SELECT USER, HOST, PLUGIN, AUTHENTICATION_STRING FROM mysql.user;
+SHOW DATABASES;
+CREATE DATABASE master;
+USE master;
+
+CREATE TABLE IF NOT EXISTS data_table(
+    id INT(10) NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(200) NOT NULL,
+    last_name VARCHAR(200),
+    age TINYINT(3) UNSIGNED,
+    dob DATE,
+    doj DATE DEFAULT (CURRENT_DATE),
+    mobile BIGINT(20) UNSIGNED UNIQUE,
+    salary DECIMAL(10,2) DEFAULT '0.00',
+    city VARCHAR(255) DEFAULT NULL,
+    reg_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, 
+    PRIMARY KEY (id)
+);
+
+INSERT INTO data_table (id, first_name, last_name, age, dob, doj, mobile, salary, city) VALUES (1, 'test', 'Kumar', 40, '1990-04-23', '2023-05-10', 8190926001, 150000.50, 'Thoothukudi');
+INSERT INTO data_table (first_name, last_name, age, dob, doj, mobile, salary, city) VALUES ('siva', 'Kumar', 20, '2003-04-23', '2023-05-10', 95246183458, 150000.80, 'Tirunelveli');
+INSERT INTO data_table (first_name, last_name, age, dob, doj, mobile, salary, city) VALUES ('Robin','son', '27','2003-04-23','2022-05-10',8122754695,'152800','Brazil');
+INSERT INTO data_table (first_name, last_name, age, dob, doj, mobile, salary, city) VALUES ('kumar','siva', '27','2003-04-23','2022-05-10',9842754695,'152800','Brazil');
+INSERT INTO data_table (first_name, last_name, age, dob, doj, mobile, salary, city) VALUES ('priya','Anu','27','2003-04-23','2022-05-10',7584754695,'152800','Brazil');
+INSERT INTO data_table (first_name, last_name, age, dob, doj, mobile, salary, city) VALUES ('Test','user','27','2003-04-23','2022-05-10',6347754695,'152800','Brazil');
+
+SELECT * FROM data_table;
+exit
